@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Navbar,
@@ -7,8 +8,13 @@ import {
   Button,
 } from "@nextui-org/react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function App() {
+  const router = usePathname();
+
+  console.log(router);
+
   return (
     <Navbar isBordered isBlurred={false}>
       <NavbarBrand>
@@ -17,13 +23,21 @@ export default function App() {
         </Link>
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem isActive>
-          <Link className="text-[#3a72ff]" href="/">
+        <NavbarItem isActive={router === "/"}>
+          <Link
+            className={`${router === "/" ? " text-blue-600" : "text-white"}`}
+            href="/"
+          >
             Admin
           </Link>
         </NavbarItem>
-        <NavbarItem>
-          <Link href="/instructor" aria-current="page">
+        <NavbarItem isActive={router === "/instructor"}>
+          <Link
+            className={`${
+              router === "/instructor" ? " text-blue-600" : "text-white"
+            }`}
+            href="/instructor"
+          >
             Instructor
           </Link>
         </NavbarItem>
