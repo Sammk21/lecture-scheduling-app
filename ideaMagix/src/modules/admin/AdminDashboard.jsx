@@ -110,7 +110,7 @@ export default function Admin({ courses }) {
     try {
       // Make the DELETE request to the backend API endpoint
       const response = await axios.delete(
-        `http://localhost:9000/courses/${id}`
+        `http://localhost:9000/courses/course/${id}`
       );
       if (response.status === 204) {
         console.log("Course deleted successfully");
@@ -132,9 +132,14 @@ export default function Admin({ courses }) {
       <div className="text-[3vw] capitalize font-bold text-gray-500 pb-6">
         <h1>course details</h1>
       </div>
-      <Link href="/addcourse">
-        <ClassicButton />
-      </Link>
+      <div className="flex gap-x-3">
+        <Link href="/addcourse">
+          <ClassicButton label={"Add Course"} />
+        </Link>
+        <Link href="/addinstructor">
+          <ClassicButton label={"Add Instructor"} />
+        </Link>
+      </div>
       <div>
         <h5 className="text-gray-400">
           click ( <span className="text-white font-bold">+</span> ) icon to

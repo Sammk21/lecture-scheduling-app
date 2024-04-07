@@ -20,7 +20,7 @@ export default function EditCourse() {
     const fetchCourse = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:9000/courses/${courseId.id}`
+          `http://localhost:9000/courses/course/${courseId.id}`
         );
         setCourse(response.data);
       } catch (error) {
@@ -42,7 +42,10 @@ export default function EditCourse() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:9000/courses/${courseId.id}`, course);
+      await axios.put(
+        `http://localhost:9000/courses/course/${courseId.id}`,
+        course
+      );
       router.push("/"); // Redirect to home page after successful update
     } catch (error) {
       console.error("Error updating course:", error);
@@ -67,19 +70,21 @@ export default function EditCourse() {
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-3">
                   <label
-                    htmlFor="courseName"
+                    htmlFor="name"
                     className="block text-sm font-medium leading-6 text-white"
                   >
                     Course Name
                   </label>
-                  <div className="mt-2">
+                  <div className="mt-2  border rounded-lg">
                     <input
                       onChange={handleChange}
                       type="text"
                       value={course.name}
-                      name="courseName"
-                      id="courseName"
-                      className="block w-full px-3 rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      name="name"
+                      id="name"
+                      className="text-sm rounded-lg block w-full ps-10 p-2.5
+                                dark:placeholder-gray-400 bg-black text-white px-10
+                                 border-gray"
                     />
                   </div>
                 </div>
@@ -91,12 +96,14 @@ export default function EditCourse() {
                   >
                     Hard level
                   </label>
-                  <div className="mt-2">
+                  <div className="mt-2  border rounded-lg">
                     <select
                       id="hardLevel"
                       name="hardLevel"
                       autoComplete="levels"
-                      className="block w-full rounded-md border-0 py-3 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                      className="text-sm rounded-lg block w-full ps-10 p-2.5
+                  dark:placeholder-gray-400 bg-black text-white px-10
+                  border-gray"
                     >
                       <option>Easy</option>
                       <option>Medium</option>
@@ -112,14 +119,16 @@ export default function EditCourse() {
                   >
                     Description
                   </label>
-                  <div className="mt-2">
+                  <div className="mt-2  border rounded-lg">
                     <input
                       type="text"
                       name="description"
                       id="description"
                       value={course.description}
                       onChange={handleChange}
-                      className="block px-3 w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="text-sm rounded-lg block w-full ps-10 p-2.5
+                  dark:placeholder-gray-400 bg-black text-white px-10
+                  border-gray"
                     />
                   </div>
                 </div>
@@ -137,12 +146,7 @@ export default function EditCourse() {
                       className="relative cursor-pointer rounded-md bg-black font-semibold text-white   flex flex-col items-center"
                     >
                       <span className="pb-4">Upload a file</span>
-                      <input
-                        className=""
-                        type="file"
-                        id="image"
-                        accept="image/*"
-                      />
+                      <input type="file" id="image" accept="image/*" />
                     </label>
                     <p className="pt-4">or drag and drop</p>
                   </div>

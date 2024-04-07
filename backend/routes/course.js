@@ -34,7 +34,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", courseController.getCourse);
+router.get("/course/:id", courseController.getCourse);
 
 router.delete("/:id", courseController.deleteCourse);
 
@@ -42,7 +42,7 @@ router.post("/", upload.single("avatar"), courseController.createCourse);
 
 router.post("/:courseId/lectures", lectureController.addLecture);
 
-router.put("/:id", courseController.editCourse);
+router.put("/course/:id", courseController.editCourse);
 
 router.get("/in/lectures", async (req, res) => {
   try {
@@ -54,5 +54,8 @@ router.get("/in/lectures", async (req, res) => {
   }
 });
 router.delete("/lectures/:id", lectureController.deleteLecture);
+
+router.post("/addInstructor", lectureController.addInstructor);
+router.get("/getInstructors", lectureController.getInstructors);
 
 module.exports = router;

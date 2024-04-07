@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, Button } from "@nextui-org/react";
 
-export default function ClassicButton() {
+export default function ClassicButton({ label }) {
   return (
     <Button
       className=" border-gray-500 bg-white text-black px-4 py-2 rounded-full"
@@ -9,7 +9,7 @@ export default function ClassicButton() {
       showAnchorIcon
       variant="solid"
     >
-      Add course
+      {label}
     </Button>
   );
 }

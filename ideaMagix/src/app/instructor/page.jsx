@@ -23,6 +23,7 @@ const Page = () => {
     fetchLectures();
   }, []);
 
+
   const handleDelete = async (id) => {
     try {
       // Make the DELETE request to the backend API endpoint

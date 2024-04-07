@@ -1,9 +1,7 @@
 "use client";
-import { usePaginationItem } from "@nextui-org/react";
-import { Datepicker } from "flowbite-react";
-import Link from "next/link";
+
 import { useParams, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
 
@@ -15,15 +13,35 @@ const page = () => {
   const queryParams = searchParams.get("course");
   console.log(queryParams);
 
-  const [instructorName, setInstructorName] = useState("");
   const [date, setDate] = useState("");
   const [error, setError] = useState(null);
+
+  const handleChange = (event) => {
+    setInstructorName(event.target.value);
+  };
 
   const displayError = (errorMessage) => {
     setError(errorMessage);
     setTimeout(() => {
       setError(null);
     }, 2000);
+  };
+  const [instructorName, setInstructorName] = useState("");
+
+  const fetchInstructors = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:9000/courses/getInstructors`
+      );
+      if (Array.isArray(response.data.instructors)) {
+        setInstructors(response.data.instructors);
+        setInstructorName(response.data.instructors[0]?.name);
+      } else {
+        console.error("Response data is not an array:", response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching instructors:", error);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -53,6 +71,14 @@ const page = () => {
     }
   };
 
+  const [instructors, setInstructors] = useState([]);
+
+  useEffect(() => {
+    fetchInstructors();
+  }, []);
+
+  console.log(instructorName);
+
   return (
     <div>
       <main className="flex flex-col items-center justify-between p-24 gap-y-6 relative ">
@@ -68,22 +94,30 @@ const page = () => {
               </p>
 
               <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 ">
-                <div className="col-span-2">
+                <div className="sm:col-span-3">
                   <label
-                    htmlFor="instructorName"
-                    className="block text-sm font-medium leading-6"
+                    htmlFor="name"
+                    className="block text-sm font-medium leading-6 "
                   >
-                    Instructor name
+                    Select Instructor
                   </label>
-                  <div className="mt-2">
-                    <input
-                      id="instructorName"
-                      name="instructorName"
-                      required
-                      value={instructorName}
-                      onChange={(e) => setInstructorName(e.target.value)}
-                      className="block w-full rounded-md border-0 px-3 py-3 capitalize text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset  sm:text-sm sm:leading-6"
-                    />
+                  <div className="mt-2  border rounded-lg">
+                    <select
+                      onChange={handleChange}
+                      id="name"
+                      name="name"
+                      autoComplete="names"
+                      className="text-sm rounded-lg block w-full ps-10 p-2.5
+                  dark:placeholder-gray-400 bg-black text-white px-10
+                  border-gray"
+                    >
+                      {instructors &&
+                        instructors.map((instructor) => (
+                          <option key={instructor._id} value={instructor.name}>
+                            {instructor.name}
+                          </option>
+                        ))}
+                    </select>
                   </div>
                 </div>
                 <div className="w-full col-span-2">

@@ -1,6 +1,6 @@
 // controllers/lectureController.js
 
-const Course = require("../model/course");
+const Instructor = require("../model/instructor");
 const Lecture = require("../model/lecture");
 
 exports.addLecture = async (req, res) => {
@@ -15,18 +15,6 @@ exports.addLecture = async (req, res) => {
       instructorName,
     });
 
-    // const allDates = instructor.flatMap(
-    //   (instructorData) => instructorData.date
-    // ); //create a array of dates
-    // allDates.forEach((date) => {
-    //   console.log("currDate", currDate);
-    //   if (date === currDate) {
-    //    res.status(400).json({
-    //      message: "Instructor is already scheduled for a lecture on this date.",
-    //    });
-    //      return;
-    //   }
-    // });
     for (const instructorData of instructor) {
       // Check if the current date conflicts with any existing lectures
       if (instructorData.date === currDate) {
@@ -64,6 +52,29 @@ exports.deleteLecture = async (req, res) => {
     res.status(204).send(); // No content to send after successful deletion
   } catch (err) {
     console.error("Error deleting lecture:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+exports.addInstructor = async (req, res) => {
+  try {
+    const { name, email, age } = req.body;
+    const instructor = new Instructor({ name, email, age });
+    await instructor.save();
+    res.status(200).json({ message: "Instructor added successfully" });
+  } catch (error) {
+    console.error("Error adding instructor:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+exports.getInstructors = async (req, res) => {
+  try {
+    // Query the database to retrieve all instructors
+    const instructors = await Instructor.find();
+    res.status(200).json({ instructors });
+  } catch (error) {
+    console.error("Error fetching instructors:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
