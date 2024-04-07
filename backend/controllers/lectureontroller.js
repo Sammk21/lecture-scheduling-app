@@ -15,18 +15,27 @@ exports.addLecture = async (req, res) => {
       instructorName,
     });
 
-    const allDates = instructor.flatMap(
-      (instructorData) => instructorData.date
-    ); //create a array of dates
-    allDates.forEach((date) => {
-      console.log("currDate", currDate);
-      if (date === currDate) {
+    // const allDates = instructor.flatMap(
+    //   (instructorData) => instructorData.date
+    // ); //create a array of dates
+    // allDates.forEach((date) => {
+    //   console.log("currDate", currDate);
+    //   if (date === currDate) {
+    //    res.status(400).json({
+    //      message: "Instructor is already scheduled for a lecture on this date.",
+    //    });
+    //      return;
+    //   }
+    // });
+    for (const instructorData of instructor) {
+      // Check if the current date conflicts with any existing lectures
+      if (instructorData.date === currDate) {
         return res.status(400).json({
           message:
             "Instructor is already scheduled for a lecture on this date.",
         });
       }
-    });
+    }
 
     const lecture = new Lecture({
       course: courseId,
