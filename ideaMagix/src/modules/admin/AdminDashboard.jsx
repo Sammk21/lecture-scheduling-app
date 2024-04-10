@@ -110,7 +110,7 @@ export default function Admin({ courses }) {
     try {
       // Make the DELETE request to the backend API endpoint
       const response = await axios.delete(
-        `http://localhost:9000/courses/course/${id}`
+        `http://localhost:9000/courses/${id}`
       );
       if (response.status === 204) {
         console.log("Course deleted successfully");

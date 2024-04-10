@@ -42,10 +42,7 @@ export default function EditCourse() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(
-        `http://localhost:9000/courses/course/${courseId.id}`,
-        course
-      );
+      await axios.put(`http://localhost:9000/courses/${courseId.id}`, course);
       router.push("/"); // Redirect to home page after successful update
     } catch (error) {
       console.error("Error updating course:", error);
